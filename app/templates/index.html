@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    {% if title %}
-        <title>{{ title }} - MyBlog</title>
-        {% else %}
-        <title>MyBlog</title>
-    {% endif %}
-</head>
-<body>
-    {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
+    <div class="panel panel-primary">
+    <div class="panel-heading">
+        <h1>Hi, {{ current_user.username }}!</h1>
+    </div>
     {% if form %}
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -31,12 +23,20 @@
     {% include '_post.html' %}
     </p>
     {% endfor %}
-    {% if prev_url %}
-    <a href="{{ prev_url }}">Newer posts</a>
-    {% endif %}
-    {% if next_url %}
-    <a href="{{ next_url }}">Older posts</a>
-    {% endif %}
+    </div>
+
+    <nav aria-label="...">
+    <ul class="pager">
+        <li class="previous{% if not prev_url %} disabled{% endif %}">
+            <a href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span> Назад в будущее
+            </a>
+        </li>
+        <li class="next{% if not next_url %} disabled{% endif %}">
+            <a href="{{ next_url or '#' }}">
+                Вперед в прошлое <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+    </nav>
 {% endblock %}
-</body>
-</html>

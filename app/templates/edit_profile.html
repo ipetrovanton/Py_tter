@@ -1,7 +1,10 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <h1>Edit Profile</h1>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+    <h1 >Edit Profile</h1>
+    </div>
+    <div class="panel-body">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>
@@ -20,4 +23,6 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+        </div>
+</div>
 {% endblock %}

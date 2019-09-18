@@ -1,36 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% if title %}
-      <title>{{ title }} - MyBlog</title>
-      {% else %}
-      <title>Welcome to MyBlock</title>
-      {% endif %}
-</head>
-<body>
-    <div>
-        MyBloG:
-            <a href="{{ url_for('index') }}">Home</a>
+{% extends 'bootstrap/base.html' %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang('ru') }}
+{% endblock %}
+
+{% block title %}
+    {% if title %}Py_tter / {{ title }}
+    {% else %}Welcome to Py_tter{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
         {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
         {% else %}
-            <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-            <a href="{{ url_for('explore') }}">Explore</a>
+            <li><a href="{{ url_for('user', username=current_user.username) }}">Profile</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            <li><a href="{{ url_for('explore') }}">Explore</a></li>
         {% endif %}
-    </div>
-    <hr>
+        </ul>
+    </nav>
+{% endblock %}
+
+ {% block content %}
+    <div class="panel panel-primary">
+        <div class="panel-body">
         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-            <ul>
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
         {% endwith %}
-        {% block content %}
-        {% endblock %}
-</body>
-</html>
+
+        {# содержимое приложения которое должно быть предоставлено в блоке app_content #}
+        {% block app_content %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
